@@ -1,7 +1,6 @@
 package app
 
 import (
-	"github.com/MinhWalker/store_oauth-api/src/clients/cassandra"
 	"github.com/MinhWalker/store_oauth-api/src/domain/access_token"
 	"github.com/MinhWalker/store_oauth-api/src/http"
 	"github.com/MinhWalker/store_oauth-api/src/repository/db"
@@ -13,11 +12,6 @@ var(
 )
 
 func StartApplication()  {
-	session, dbErr := cassandra.GetSession()
-	if dbErr != nil {
-		panic(dbErr)
-	}
-	session.Close()
 
 	atHandler := http.NewHandler(access_token.NewService(db.NewRepository()))
 
