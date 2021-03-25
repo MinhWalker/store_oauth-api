@@ -15,15 +15,14 @@ var(
 	client = resty.New().SetTimeout(100*time.Millisecond).SetHostURL("http://localhost:8080")
 )
 
-type RestUserRepository interface {
+type RestUsersRepository interface {
 	LoginUser(string, string) (*users.User, *errors.RestErr)
-	LoginUserTest(*httptest.ResponseRecorder) (*users.User, *errors.RestErr)
 }
 
-type usersRepository struct {
+type usersRepository struct{
 }
 
-func NewRepository() RestUserRepository {
+func NewRestUsersRepository() RestUsersRepository {
 	return &usersRepository{}
 }
 

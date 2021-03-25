@@ -2,6 +2,7 @@ package http
 
 import (
 	"github.com/MinhWalker/store_oauth-api/src/domain/access_token"
+	"github.com/MinhWalker/store_oauth-api/src/services"
 	"github.com/MinhWalker/store_oauth-api/src/utils/errors"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -14,10 +15,10 @@ type AccessTokenHandler interface {
 }
 
 type accessTokenHandler struct {
-	service access_token.Service
+	service services.Service
 }
 
-func NewHandler(service access_token.Service) AccessTokenHandler {
+func NewHandler(service services.Service) AccessTokenHandler {
 	return &accessTokenHandler{
 		service: service,
 	}
@@ -34,15 +35,16 @@ func (h *accessTokenHandler) GetById(c *gin.Context) {
 }
 
 func (h *accessTokenHandler) Create(c *gin.Context) {
-	var at access_token.AccessToken
-	if err := c.ShouldBindJSON(&at); err != nil {
+	var request access_token.AccessTokenRequest
+	if err := c.ShouldBindJSON(&request); err != nil {
 		restErr := errors.NewBadRequestError("invalid json body")
 		c.JSON(restErr.Status, restErr)
 		return
 	}
-	if err := h.service.Create(at); err != nil {
+	accessToken, err := h.service.Create(request)
+	if err != nil {
 		c.JSON(err.Status, err)
 		return
 	}
-	c.JSON(http.StatusCreated, at)
+	c.JSON(http.StatusCreated, accessToken)
 }
