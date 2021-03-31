@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/MinhWalker/store_oauth-api/src/domain/users"
 	"github.com/MinhWalker/store_oauth-api/src/utils/errors"
-	"gopkg.in/go-resty/resty.v2"
+	"github.com/go-resty/resty/v2"
 	"time"
 )
 
