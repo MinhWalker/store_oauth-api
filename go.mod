@@ -3,6 +3,7 @@ module github.com/MinhWalker/store_oauth-api
 go 1.16
 
 require (
+	github.com/MinhWalker/store_utils-go v0.0.0-20210331101409-d39dffa13065 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/gin-gonic/gin v1.6.3

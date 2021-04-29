@@ -3,7 +3,7 @@ package http
 import (
 	"github.com/MinhWalker/store_oauth-api/src/domain/access_token"
 	"github.com/MinhWalker/store_oauth-api/src/services"
-	"github.com/MinhWalker/store_oauth-api/src/utils/errors"
+	"github.com/MinhWalker/store_utils-go/rest_errors"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strings"
@@ -27,7 +27,7 @@ func NewHandler(service services.Service) AccessTokenHandler {
 func (h *accessTokenHandler) GetById(c *gin.Context) {
 	accessToken, err := h.service.GetById(strings.TrimSpace(c.Param("access_token_id")))
 	if err != nil {
-		c.JSON(err.Status, err)
+		c.JSON(err.Status(), err)
 		return
 	}
 
@@ -37,13 +37,13 @@ func (h *accessTokenHandler) GetById(c *gin.Context) {
 func (h *accessTokenHandler) Create(c *gin.Context) {
 	var request access_token.AccessTokenRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
-		restErr := errors.NewBadRequestError("invalid json body")
-		c.JSON(restErr.Status, restErr)
+		restErr := rest_errors.NewBadRequestError("invalid json body")
+		c.JSON(restErr.Status(), restErr)
 		return
 	}
 	accessToken, err := h.service.Create(request)
 	if err != nil {
-		c.JSON(err.Status, err)
+		c.JSON(err.Status(), err)
 		return
 	}
 	c.JSON(http.StatusCreated, accessToken)
